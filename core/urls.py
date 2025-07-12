@@ -5,5 +5,6 @@ from django.conf.urls import include
 urlpatterns = [
     path('', views.home, name='home'),
     path('ask/', views.ask_question, name='ask_question'),
+    path('question/<int:pk>/', views.question_detail, name='question_detail'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
 ]

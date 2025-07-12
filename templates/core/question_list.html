@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container mt-4">
+    <h2 class="mb-4">Latest Questions</h2>
+    {% for question in questions %}
+      <div class="card mb-3 p-3 shadow-sm">
+        <h4>
+          <a href="{% url 'question_detail' question.pk %}">
+            {{ question.title }}
+          </a>
+        </h4>
+        <small class="text-muted">
+          Posted by {{ question.user.username }} on {{ question.created_at }}
+        </small>
+        <p>
+          {% for tag in question.tags.all %}
+            <span class="badge bg-secondary">{{ tag.name }}</span>
+          {% endfor %}
+        </p>
+      </div>
+    {% empty %}
+      <p>No questions yet. <a href="{% url 'ask_question' %}" class="btn btn-success mb-3">Ask a Question</a>
+</p>
+    {% endfor %}
+  </div>
+{% endblock %}

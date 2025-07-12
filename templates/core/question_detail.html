@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ question.title }}</h2>
+  <p>{{ question.description|safe }}</p>
+  <p>
+    Tags:
+    {% for tag in question.tags.all %}
+      <span class="badge bg-secondary">{{ tag.name }}</span>
+    {% endfor %}
+  </p>
+  <p><small class="text-muted">Posted by {{ question.user.username }} on {{ question.created_at }}</small></p>
+
+  <hr>
+
+  <h4>Answers ({{ answers.count }})</h4>
+  {% for answer in answers %}
+    <div class="card mb-3 p-3">
+      <p>{{ answer.content }}</p>
+      <small class="text-muted">By {{ answer.user.username }} on {{ answer.created_at }}</small>
+    </div>
+  {% empty %}
+    <p>No answers yet. Be the first to answer!</p>
+  {% endfor %}
+
+  <hr>
+
+  {% if request.user.is_authenticated %}
+    <h5>Your Answer</h5>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary">Submit Answer</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to post an answer.</p>
+  {% endif %}
+</div>
+{% endblock %}
