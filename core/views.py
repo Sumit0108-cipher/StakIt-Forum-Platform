@@ -7,13 +7,22 @@ from notifications.models import Notification
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from .models import Answer
+from django.db.models import Count
 # Create your views here.
 
 
 def home(request):
-    questions = Question.objects.all().order_by('-created_at')
-    return render(request, 'core/question_list.html', {'questions': questions})
+    sort_by = request.GET.get('sort', 'newest')  # default to newest
 
+    if sort_by == 'unanswered':
+        questions = Question.objects.annotate(answer_count=Count('answers')).filter(answer_count=0).order_by('-created_at')
+    else:  # 'newest'
+        questions = Question.objects.all().order_by('-created_at')
+
+    return render(request, 'core/question_list.html', {
+        'questions': questions,
+        'sort_by': sort_by,
+    })
 @login_required
 def ask_question(request):
     if request.method == 'POST':

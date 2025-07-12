@@ -9,6 +9,14 @@
 <div class="container py-4">
 
   <h2 class="fw-semibold mb-4">Latest Questions</h2>
+    <div class="mb-3 d-flex gap-3">
+  <a href="?sort=newest" class="btn btn-sm {% if sort_by == 'newest' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+    Newest
+  </a>
+  <a href="?sort=unanswered" class="btn btn-sm {% if sort_by == 'unanswered' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+    Unanswered
+  </a>
+</div>
 
   {% for q in questions %}
   <div class="question-row border-bottom pb-3 mb-4">
