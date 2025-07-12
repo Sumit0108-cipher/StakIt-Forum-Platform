@@ -17,8 +17,15 @@
     <div class="d-flex justify-content-between align-items-start mb-1">
       <!-- Title -->
       <h4 class="mb-1">
-        <a href="{% url 'question_detail' q.pk %}" class="question-title">
+        <a href="{% url 'question_detail' q.pk %}" class="question-title " style="color: #000000 !important; text-decoration: none;">
+          {% if q.is_featured %}
+            <span class="badge bg-warning text-dark me-2">Featured</span>
+          {% endif %}
           {{ q.title }}
+          {% if q.is_featured %}
+            <span class="badge bg-warning text-dark me-2">Featured</span>
+          {% endif %}
+          
         </a>
       </h4>
 
