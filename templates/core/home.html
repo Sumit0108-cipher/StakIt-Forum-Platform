@@ -1,14 +1,46 @@
+<!-- File: home.html -->
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="text-center">
-    <h1>Welcome to StackIt 🧠</h1>
-    <p class="lead">A minimal Q&A platform for collaborative learning.</p>
-    {% if user.is_authenticated %}
-        <a href="#" class="btn btn-primary">Ask a Question</a>
-    {% else %}
-        <a href="{% url 'signup' %}" class="btn btn-success me-2">Sign Up</a>
-        <a href="{% url 'login' %}" class="btn btn-outline-secondary">Login</a>
-    {% endif %}
-</div>
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div class="d-flex align-items-center gap-2">
+      <select class="form-select w-auto" aria-label="Filter by">
+        <option selected>Newest</option>
+        <option value="1">Votes</option>
+        <option value="2">Unanswered</option>
+      </select>
+      <button class="btn btn-outline-secondary d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#filterCanvas"><i class="bi bi-sliders"></i></button>
+    </div>
+    <form class="d-flex flex-grow-1 flex-lg-grow-0" style="max-width: 320px;">
+      <input class="form-control" type="search" placeholder="Search questions…" />
+      <button class="btn btn-primary ms-2"><i class="bi bi-search"></i></button>
+    </form>
+  </div>
+
+  <!-- QUESTION LIST -->
+  <div class="list-group shadow-sm">
+    {% for q in questions %}
+    <a href="/question/{{ q.id }}" class="list-group-item list-group-item-action py-3">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{ q.title }}</h5>
+        <small class="text-muted"><i class="bi bi-chat"></i> {{ q.answers.count }}</small>
+      </div>
+      <p class="mb-1 text-truncate">{{ q.short_description }}</p>
+      <small class="text-muted">Asked by {{ q.user.username }} • {{ q.created|timesince }} ago</small>
+    </a>
+    {% empty %}
+    <div class="text-center py-5 text-muted">No questions yet. Be the first to <a href="/ask">ask one</a>!</div>
+    {% endfor %}
+  </div>
+
+  <!-- PAGINATION PLACEHOLDER -->
+  <nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item disabled"><span class="page-link">«</span></li>
+      <li class="page-item active"><span class="page-link">1</span></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">»</a></li>
+    </ul>
+  </nav>
 {% endblock %}
+
