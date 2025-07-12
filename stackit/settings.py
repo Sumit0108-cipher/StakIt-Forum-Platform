@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'core',
     'notifications',
+    'django_ckeditor_5',
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -69,6 +70,8 @@ TEMPLATES = [
         },
     },
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 WSGI_APPLICATION = 'stackit.wsgi.application'
 
@@ -124,3 +127,32 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CKEditor settings
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            '|',
+            'link',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'blockQuote',
+            'insertTable',
+            'imageUpload',
+            'mediaEmbed',
+            '|',
+            'undo',
+            'redo',
+            'alignment',
+        ],
+        "language": "en",
+    }
+}
+
