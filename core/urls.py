@@ -9,4 +9,5 @@ urlpatterns = [
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('answer/<int:answer_id>/accept/', views.accept_answer, name='accept_answer'),
     path('answer/<int:answer_id>/upvote/', views.upvote_answer, name='upvote_answer'),
+    path('question/<int:pk>/delete/', views.delete_question, name='delete_question'),
 ]

@@ -3,12 +3,20 @@
 <div class="container mt-4">
   <h2>{{ question.title }}</h2>
   <p>{{ question.description|safe }}</p>
+  
+
   <p>
     Tags:
     {% for tag in question.tags.all %}
       <span class="badge bg-secondary">{{ tag.name }}</span>
     {% endfor %}
   </p>
+  {% if question.user == request.user %}
+    <form action="{% url 'delete_question' question.pk %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-danger">Delete Question</button>
+    </form>
+    {% endif %}
   <p><small class="text-muted">Posted by {{ question.user.username }} on {{ question.created_at }}</small></p>
 
   <hr>

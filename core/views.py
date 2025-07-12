@@ -106,3 +106,16 @@ def upvote_answer(request, answer_id):
     answer.votes += 1
     answer.save()
     return redirect(answer.question.get_absolute_url())
+
+# delete_question
+@login_required
+def delete_question(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    if request.user != question.user:
+        return HttpResponseForbidden("You are not allowed to delete this question.")
+
+    if request.method == 'POST':
+        question.delete()
+        return redirect('home')
+
+    return render(request, 'core/confirm_delete.html', {'question': question})
