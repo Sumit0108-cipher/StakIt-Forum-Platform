@@ -1,19 +1,41 @@
 .auth-modal .form-control {
-    border-radius: 0.5rem;
-  }
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+}
 
-  .auth-modal .btn-primary {
-    background-color: #5e2bff;
-    border: none;
-    font-weight: 500;
-  }
+.auth-modal .btn-primary {
+  background-color: #5e2bff;
+  border: none;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+}
 
-  .auth-modal .btn-primary:hover {
-    background-color: #4a22cc;
-  }
+.auth-modal .btn-primary:hover {
+  background-color: #4a22cc;
+}
 
-  @media (max-width: 576px) {
-    .modal-content {
-      margin: 1rem;
-    }
+.auth-modal .form-label {
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+@media (max-width: 576px) {
+  .modal-content {
+    margin: 1rem;
   }
+}
+/* Role selection pills in header */
+.btn-group .btn {
+  font-size: 0.85rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-check:checked + .btn-outline-light {
+  background-color: #fff;
+  color: #5e2bff;
+  border-color: transparent;
+}

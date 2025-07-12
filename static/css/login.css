@@ -1,19 +1,46 @@
 .auth-modal .form-control {
-    border-radius: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.auth-modal .form-control:focus {
+  border-color: #5e2bff;
+  box-shadow: 0 0 0 0.2rem rgba(94, 43, 255, 0.2);
+}
+
+.auth-modal label {
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  display: block;
+  color: #333;
+}
+
+.auth-modal .btn-primary {
+  background-color: #5e2bff;
+  border: none;
+  font-weight: 600;
+  padding: 0.6rem;
+  font-size: 1rem;
+}
+
+.auth-modal .btn-primary:hover {
+  background-color: #4a22cc;
+}
+
+.auth-modal .modal-title {
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 576px) {
+  .modal-content {
+    margin: 1rem;
   }
 
-  .auth-modal .btn-primary {
-    background-color: #5e2bff;
-    border: none;
-    font-weight: 500;
+  .auth-modal .modal-body {
+    padding: 1.5rem;
   }
-
-  .auth-modal .btn-primary:hover {
-    background-color: #4a22cc;
-  }
-
-  @media (max-width: 576px) {
-    .modal-content {
-      margin: 1rem;
-    }
-  }
+}
