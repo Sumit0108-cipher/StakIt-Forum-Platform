@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
 {% block content %}
 <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
   <div class="modal-content shadow auth-modal text-center w-100" style="max-width: 400px; border-radius: 1rem;">
