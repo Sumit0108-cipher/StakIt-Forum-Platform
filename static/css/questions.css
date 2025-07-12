@@ -1,0 +1,49 @@
+/* Hand‑drawn look & spacing inspired by your wire‑frame */
+.question-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #1f2937;
+  text-decoration: none;
+}
+.question-title:hover {
+  text-decoration: underline;
+}
+
+.chip {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f1f1f1;
+  font-size: 0.75rem;
+}
+
+.description-snippet {
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.answer-badge {
+  border: 1px solid #bbb;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  min-width: 55px;
+  color: #111;
+  background-color: #f9f9f9;
+}
+
+
+/* Pagination numbers similar to sketch */
+.pagination .page-link {
+  border: none;
+  background: transparent;
+  font-weight: 500;
+  color: #111827;
+}
+.pagination .active .page-link {
+  background: none;
+  color: #374151;
+  text-decoration: underline;
+}

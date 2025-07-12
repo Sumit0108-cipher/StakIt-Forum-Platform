@@ -1,26 +1,83 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/questions.css' %}">
+{% endblock %}
+
 {% block content %}
-  <div class="container mt-4">
-    <h2 class="mb-4">Latest Questions</h2>
-    {% for question in questions %}
-      <div class="card mb-3 p-3 shadow-sm">
-        <h4>
-          <a href="{% url 'question_detail' question.pk %}">
-            {{ question.title }}
-          </a>
-        </h4>
-        <small class="text-muted">
-          Posted by {{ question.user.username }} on {{ question.created_at }}
-        </small>
-        <p>
-          {% for tag in question.tags.all %}
-            <span class="badge bg-secondary">{{ tag.name }}</span>
-          {% endfor %}
-        </p>
+<div class="container py-4">
+
+  <h2 class="fw-semibold mb-4">Latest Questions</h2>
+
+  {% for q in questions %}
+  <div class="question-row border-bottom pb-3 mb-4">
+
+    <!-- 1st ROW: Title & Answer Count -->
+    <div class="d-flex justify-content-between align-items-start mb-1">
+      <!-- Title -->
+      <h4 class="mb-1">
+        <a href="{% url 'question_detail' q.pk %}" class="question-title">
+          {{ q.title }}
+        </a>
+      </h4>
+
+      <!-- Answer Count Badge -->
+      <div class="answer-badge text-center">
+        {{ q.answers.count }} ans
       </div>
-    {% empty %}
-      <p>No questions yet. <a href="{% url 'ask_question' %}" class="btn btn-success mb-3">Ask a Question</a>
-</p>
-    {% endfor %}
+    </div>
+
+    <!-- 2nd ROW: Tags | Description -->
+    <div class="row mb-1">
+      <!-- Tags column -->
+      <div class="col-md-6 col-sm-12 d-flex flex-wrap gap-1">
+        {% for tag in q.tags.all %}
+          <span class="chip">{{ tag.name }}</span>
+        {% empty %}
+          <span class="chip chip--empty">untagged</span>
+        {% endfor %}
+      </div>
+
+      <!-- Description column -->
+      <div class="col-md-6 col-sm-12 text-muted description-snippet">
+        {{ q.description|truncatewords:35|striptags }}
+      </div>
+    </div>
+
+    <!-- 3rd ROW: Username -->
+    <div class="row">
+      <div class="col text-muted small">
+        User Name • {{ q.user.username }}
+      </div>
+    </div>
   </div>
+{% endfor %}
+
+  {% if is_paginated %}
+    <nav aria-label="page navigation" class="mt-3">
+      <ul class="pagination justify-content-center gap-1">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">‹</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">‹</span></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if num == page_obj.number %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">›</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">›</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
 {% endblock %}
