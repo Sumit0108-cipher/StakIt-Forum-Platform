@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import QuestionForm, AnswerForm
 from .models import Question
 from .models import Tag
+from .models import Answer
+from notifications.models import Notification
 
 # Create your views here.
 
@@ -44,6 +46,15 @@ def question_detail(request, pk):
             answer.question = question
             answer.user = request.user
             answer.save()
+
+            # ✅ Send notification to question owner (if not self)
+            if question.user != request.user:
+                Notification.objects.create(
+                    recipient=question.user,
+                    message=f"{request.user.username} answered your question.",
+                    url=question.get_absolute_url()  # make sure Question model has get_absolute_url
+                )
+
             return redirect('question_detail', pk=pk)
     else:
         form = AnswerForm()
@@ -53,3 +64,4 @@ def question_detail(request, pk):
         'answers': answers,
         'form': form
     })
+
