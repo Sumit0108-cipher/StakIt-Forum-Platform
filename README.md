@@ -1,7 +1,7 @@
 # StakIt-Forum-Platform
 # StackIt - A Minimal Forum Platform for Developers 👨‍💻👩‍💻
 
-Presentation Video Link [here]([https://example.com/docs](https://www.youtube.com/watch?v=hIDXdwGY5Ck))
+Presentation Video [link]([https://example.com/docs](https://www.youtube.com/watch?v=hIDXdwGY5Ck))
 
 StackIt is a lightweight and elegant Q&A platform built using Django. Inspired by StackOverflow, it empowers developers to post questions, provide answers, and engage with the community. It includes features like tagging, rich text formatting, notifications, and more.
 
