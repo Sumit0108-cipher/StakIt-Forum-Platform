@@ -20,5 +20,5 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         fields = ['content']
         widgets = {
-            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'content': CKEditor5Widget(config_name='default'), 
         }

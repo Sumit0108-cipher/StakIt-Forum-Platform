@@ -4,7 +4,9 @@ from .models import Question
 from .models import Tag
 from .models import Answer
 from notifications.models import Notification
-
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden, HttpResponseRedirect
+from .models import Answer
 # Create your views here.
 
 
@@ -12,6 +14,7 @@ def home(request):
     questions = Question.objects.all().order_by('-created_at')
     return render(request, 'core/question_list.html', {'questions': questions})
 
+@login_required
 def ask_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -37,6 +40,14 @@ def ask_question(request):
 
 def question_detail(request, pk):
     question = get_object_or_404(Question, pk=pk)
+
+    if request.user.is_authenticated:
+        Notification.objects.filter(
+            recipient=request.user,
+            url=request.path,
+            is_read=False
+        ).update(is_read=True)
+
     answers = question.answers.all().order_by('-created_at')
 
     if request.method == 'POST':
@@ -65,3 +76,33 @@ def question_detail(request, pk):
         'form': form
     })
 
+@login_required
+def accept_answer(request, answer_id):
+    answer = get_object_or_404(Answer, id=answer_id)
+    question = answer.question
+    # Only the user who asked the question can accept an answer
+    if question.user != request.user:
+        return HttpResponseForbidden("You are not allowed to accept this answer.")
+
+    # Unmark any previously accepted answers
+    question.answers.filter(is_accepted=True).update(is_accepted=False)
+
+    # Mark the selected one
+    answer.is_accepted = True
+    answer.save()
+
+    return HttpResponseRedirect(question.get_absolute_url())
+
+
+
+@login_required
+def upvote_answer(request, answer_id):
+    answer = get_object_or_404(Answer, pk=answer_id)
+
+    # Prevent self-upvote if desired
+    # if request.user == answer.user:
+    #     return redirect(answer.question.get_absolute_url())
+
+    answer.votes += 1
+    answer.save()
+    return redirect(answer.question.get_absolute_url())

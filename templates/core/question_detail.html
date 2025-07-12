@@ -15,9 +15,28 @@
 
   <h4>Answers ({{ answers.count }})</h4>
   {% for answer in answers %}
-    <div class="card mb-3 p-3">
-      <p>{{ answer.content }}</p>
-      <small class="text-muted">By {{ answer.user.username }} on {{ answer.created_at }}</small>
+    <div class="card mb-3 p-3 {% if answer.is_accepted %}border border-success{% endif %}">
+      <p>{{ answer.content|safe }}</p>
+      <small class="text-muted">By {{ answer.user.username }} on {{ answer.created_at }}</small><br>
+
+      <form action="{% url 'upvote_answer' answer.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-outline-primary">▲ Upvote</button>
+        <span>{{ answer.votes }}</span>
+      </form>
+
+      {% if question.user == request.user %}
+        <form action="{% url 'accept_answer' answer.id %}" method="post" style="display: inline;">
+          {% csrf_token %}
+          {% if answer.is_accepted %}
+            <span class="badge bg-success">Accepted</span>
+          {% else %}
+            <button class="btn btn-sm btn-outline-success">Mark as Accepted</button>
+          {% endif %}
+        </form>
+      {% elif answer.is_accepted %}
+        <span class="badge bg-success">Accepted Answer</span>
+      {% endif %}
     </div>
   {% empty %}
     <p>No answers yet. Be the first to answer!</p>
@@ -27,6 +46,7 @@
 
   {% if request.user.is_authenticated %}
     <h5>Your Answer</h5>
+    {{ form.media }}
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}

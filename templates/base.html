@@ -85,28 +85,29 @@
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
-            <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-bell" style="font-size: 1.3rem;"></i>
-              {% if user.notifications_unread.count > 0 %}
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {{ user.notifications_unread.count }}
-              </span>
+            <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown">
+              🔔
+              {% if unread_notification_count > 0 %}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {{ unread_notification_count }}
+                </span>
               {% endif %}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="width: 300px;">
-              {% if user.notifications_unread.all %}
-                {% for notification in user.notifications_unread.all|slice:":5" %}
-                  <li class="dropdown-item small">
-                    <a href="{{ notification.target.get_absolute_url }}" class="text-decoration-none">{{ notification.verb }}</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+              {% if notifications %}
+                {% for note in notifications %}
+                  <li>
+                    <a class="dropdown-item{% if not note.is_read %} fw-bold{% endif %}" href="{{ note.url }}">
+                      {{ note.message }}
+                    </a>
                   </li>
                 {% endfor %}
-                <li><hr class="dropdown-divider"></li>
-                <li class="dropdown-item text-center"><a href="#">View all</a></li>
               {% else %}
-                <li class="dropdown-item text-muted small">No new notifications</li>
+                <li><span class="dropdown-item text-muted">No notifications</span></li>
               {% endif %}
             </ul>
           </li>
+
 
           <li class="nav-item">
             <a class="nav-link" href="#">Hi, {{ user.username }}</a>

@@ -27,7 +27,7 @@ class Question(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = CKEditor5Field(config_name='default', blank=True, null=True)
     is_accepted = models.BooleanField(default=False)
     votes = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
